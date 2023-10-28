@@ -1,8 +1,11 @@
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service as GeckoDriverService
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 import os
 
 url = "https://my.epitech.eu/"
@@ -18,44 +21,55 @@ service = GeckoDriverService(executable_path=driver_path, log_path=os.path.devnu
 driver = webdriver.Firefox(options=options, service=service)
 
 driver.get(url)
-driver.implicitly_wait(10)
-
-
 
 try:
-    login_button = driver.find_element(By.CLASS_NAME, "mdl-button__ripple-container")
-    login_url = login_button.get_attribute("href")
-except NoSuchElementException:
+    wait = WebDriverWait(driver, 30)
+    login_button = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "mdl-button__ripple-container")))
+    print("login_button found!")
+except TimeoutException:
     login_button = None
-    login_url = None
+    print("TimeoutException: Login button not found.")
 
-if login_url is not None:
-    print("Navigating to", login_url)
-    driver.get(login_url)
+if login_button is not None:
+    print("Clicking on login button.")
+    login_button.click()
 
     driver.implicitly_wait(10)
 
     if url in driver.current_url:
         print("Already logged in.")
+    else:
+        print("Login successful.")
 else:
     print("No login button found. Proceeding to get website content.")
 
-main_element = driver.find_element(By.TAG_NAME, "main")
-content = main_element.get_attribute("innerHTML")
+try:
+    wait = WebDriverWait(driver, 30)
+    main_element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "main")))
 
-if os.path.exists(filename):
-    with open(filename, "r") as f:
-        old_content = f.read()
+    wait.until(EC.presence_of_element_located((By.XPATH, "//div[@class='mdl-card']")))
 
-    if old_content == content:
-        print("Website content has not changed.")
+    content = main_element.get_attribute("innerHTML")
+except TimeoutException:
+    print("Timed out waiting for main element or content to be present on the page.")
+    content = None
+
+if content is not None:
+    if os.path.exists(filename):
+        with open(filename, "r") as f:
+            old_content = f.read()
+
+        if old_content == content:
+            print("Website content has not changed.")
+        else:
+            print("Website content has changed.")
+            with open(filename, "w") as f:
+                f.write(content)
     else:
-        print("Website content has changed.")
+        print("Website content not found. Creating file.")
         with open(filename, "w") as f:
             f.write(content)
 else:
-    print("Website content not found. Creating file.")
-    with open(filename, "w") as f:
-        f.write(content)
+    print("Unable to get website content.")
 
 driver.quit()
