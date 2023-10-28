@@ -14,6 +14,7 @@ filename = "website_content.txt"
 driver_path = "/usr/bin/geckodriver"
 
 options = Options()
+options.add_argument("--headless")
 options.profile = "/home/khara/.mozilla/firefox/aqoh1xti.default-release"
 service_args = ["--marionette-port", "2828"]
 service = GeckoDriverService(executable_path=driver_path, log_path=os.path.devnull, service_args=service_args)
@@ -41,8 +42,6 @@ if login_button is not None:
         print("Login successful.")
 else:
     print("No login button found. Proceeding to get website content.")
-print("The normal URL should be : https://my.epitech.eu/#y/2023 but it depends on your year and maybe others parameters.")
-print("Current URL:", driver.current_url)
 
 try:
     wait = WebDriverWait(driver, 30)
