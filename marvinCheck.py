@@ -4,7 +4,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service as GeckoDriverService
-from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 import os
 
@@ -42,6 +41,8 @@ if login_button is not None:
         print("Login successful.")
 else:
     print("No login button found. Proceeding to get website content.")
+print("The normal URL should be : https://my.epitech.eu/#y/2023 but it depends on your year and maybe others parameters.")
+print("Current URL:", driver.current_url)
 
 try:
     wait = WebDriverWait(driver, 30)
