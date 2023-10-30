@@ -11,7 +11,7 @@ To use this script, you need to add it to your crontab. Here's an example of how
 3. Replace `/path/to/marvinCheck.py` with the actual path to the script on your system.
 
 Make sure to change the `options.profile` variable in the script to your own profile.  
-Also change 'DISPLAY' and 'DBUS_SESSION_BUS_ADDRESS' to display the notification correctly on your screen
+Also change `DISPLAY` and `DBUS_SESSION_BUS_ADDRESS` to display the notification correctly on your screen
 
 Feel free to fork it to adapt it for an other browser.
 ## License
