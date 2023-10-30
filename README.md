@@ -7,10 +7,11 @@ This script is designed to be run in a cronjob every 5 minutes. It checks if Mar
 To use this script, you need to add it to your crontab. Here's an example of how to do it:
 
 1. Open your crontab file by running `crontab -e` in your terminal.
-2. Add the following line to the file: `*/5 * * * * python3 /path/to/marvinCheck.py > /dev/null 2>&1`
-3. Replace `/path/to/marvin-checker.sh` with the actual path to the script on your system.
+2. Add the following line to the file: `*/5 * * * * /usr/bin/python3 /path/to/marvinCheck.py > /dev/null 2>&1`
+3. Replace `/path/to/marvinCheck.py` with the actual path to the script on your system.
 
-Make sure to change the `options.profile` variable in the script to your own profile.
+Make sure to change the `options.profile` variable in the script to your own profile.  
+Also change 'DISPLAY' and 'DBUS_SESSION_BUS_ADDRESS' to display the notification correctly on your screen
 
 Feel free to fork it to adapt it for an other browser.
 ## License

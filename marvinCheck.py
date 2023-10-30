@@ -6,8 +6,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service as GeckoDriverService
 from selenium.common.exceptions import TimeoutException
 import os
-# This script is supposed to be runned in a cronjob every 5 minutes. , you can change the time if you want.
-
+# This script is supposed to be runned in a cronjob every minutes. You can change the time if you want.
+os.environ['DISPLAY'] = ':0'
+os.environ['DBUS_SESSION_BUS_ADDRESS'] = 'unix:path=/run/user/1000/bus'
 url = "https://my.epitech.eu/"
 
 filename = "website_content.txt"
@@ -63,7 +64,7 @@ if content is not None:
         if old_content == content:
             print("Website content has not changed.")
             #Uncomment this if you want to get a useless notification every 5 minutes (Obviously only use that to debug uh)
-           # os.system("notify-send 'IT DID NOT CHANGE' 'Yea you can go back to sleep'")
+            # os.system("notify-send 'IT DID NOT CHANGE' 'Yea you can go back to sleep'")
         else:
             os.system("notify-send 'IT CHANGED' 'Yea you need to check marvin to see his failed tests'")
             print("Website content has changed.")
